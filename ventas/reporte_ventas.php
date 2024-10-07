@@ -1,4 +1,7 @@
 <?php
+
+date_default_timezone_set(timezoneId: 'America/Bogota');
+
 include_once "encabezado.php";
 include_once "navbar.php";
 include_once "funciones.php";
@@ -26,9 +29,9 @@ $ventas = obtenerVentas($fechaInicio, $fechaFin, $cliente, $usuario);
 
 $cartas = [
     ["titulo" => "No. ventas", "icono" => "fa fa-shopping-cart", "total" => count($ventas), "color" => "#A71D45"],
-    ["titulo" => "Total ventas", "icono" => "fa fa-money-bill", "total" => "$".calcularTotalVentas($ventas), "color" => "#2A8D22"],
+    ["titulo" => "Total ventas", "icono" => "fa fa-money-bill", "total" => "$".number_format(calcularTotalVentas($ventas), 0, ',', '.'), "color" => "#2A8D22"],
     ["titulo" => "Productos vendidos", "icono" => "fa fa-box", "total" =>calcularProductosVendidos($ventas), "color" => "#223D8D"],
-    ["titulo" => "Ganancia", "icono" => "fa fa-wallet", "total" => "$". obtenerGananciaVentas($ventas), "color" => "#D55929"],
+    ["titulo" => "Ganancia", "icono" => "fa fa-wallet", "total" => "$".number_format(obtenerGananciaVentas($ventas), 0, ',', '.'), "color" => "#D55929"],
 ];
 
 $clientes = obtenerClientes();
@@ -60,9 +63,9 @@ $usuarios = obtenerUsuarios();
                 <div class="col-6">
                 <select class="form-select" aria-label="Default select example" name="idUsuario">
                     <option selected value="">Selecciona un usuario</option>
-                    <?php foreach($usuarios as $usuario) {?>
-                    <option value="<?= $usuario->id?>"><?= $usuario->usuario?></option>
-                    <?php }?>
+                    <?php foreach($usuarios as $usuario) { ?>
+                    <option value="<?= $usuario->id ?>"><?= $usuario->usuario ?></option>
+                    <?php } ?>
                 </select>
                 </div>
                 <div class="col-1">
@@ -75,9 +78,9 @@ $usuarios = obtenerUsuarios();
                 <div class="col-6">
                 <select class="form-select" aria-label="Default select example" name="idCliente">
                     <option selected value="">Selecciona un cliente</option>
-                    <?php foreach($clientes as $cliente) {?>
-                    <option value="<?= $cliente->id?>"><?= $cliente->nombre?></option>
-                    <?php }?>
+                    <?php foreach($clientes as $cliente) { ?>
+                    <option value="<?= $cliente->id ?>"><?= $cliente->nombre ?></option>
+                    <?php } ?>
                 </select>
                 </div>
                 <div class="col-1">
@@ -85,10 +88,9 @@ $usuarios = obtenerUsuarios();
                 </div>
             </form>
         </div>
-
     </div>
-    <?php include_once "cartas_totales.php"?>
-    <?php if(count($ventas) > 0){?>
+    <?php include_once "cartas_totales.php" ?>
+    <?php if(count($ventas) > 0) { ?>
     <table class="table">
         <thead>
             <tr>
@@ -101,34 +103,34 @@ $usuarios = obtenerUsuarios();
             </tr>
         </thead>
         <tbody>
-            <?php foreach($ventas as $venta) {?>
+            <?php foreach($ventas as $venta) { ?>
                 <tr>
-                    <td><?= $venta->id;?></td>
-                    <td><?= $venta->fecha;?></td>
-                    <td><?= $venta->cliente;?></td>
-                    <td>$<?= $venta->total;?></td>
-                    <td><?= $venta->usuario;?></td>
+                    <td><?= $venta->id; ?></td>
+                    <td><?= $venta->fecha; ?></td>
+                    <td><?= $venta->cliente; ?></td>
+                    <td>$<?= number_format($venta->total, 0, ',', '.'); ?></td> <!-- Aquí se aplica number_format -->
+                    <td><?= $venta->usuario; ?></td>
                     <td>
                         <table class="table">
-                            <?php foreach($venta->productos as $producto) {?>
+                            <?php foreach($venta->productos as $producto) { ?>
                                 <tr>
-                                    <td><?= $producto->nombre;?></td>
-                                    <td><?= $producto->cantidad;?></td>
+                                    <td><?= $producto->nombre; ?></td>
+                                    <td><?= $producto->cantidad; ?></td>
                                     <td> X </td>
-                                    <td>$<?=  $producto->precio ;?></td>
-                                    <th>$<?= $producto->cantidad * $producto->precio ;?></th>
+                                    <td>$<?= number_format($producto->precio, 0, ',', '.'); ?></td> <!-- number_format aplicado -->
+                                    <th>$<?= number_format($producto->cantidad * $producto->precio, 0, ',', '.'); ?></th> <!-- number_format aplicado -->
                                 </tr>
-                                <?php }?>
+                            <?php } ?>
                         </table>
                     </td>
                 </tr>
-            <?php }?>
+            <?php } ?>
         </tbody>
     </table>
-    <?php }?>
-    <?php if(count($ventas) < 1){?>
+    <?php } ?>
+    <?php if(count($ventas) < 1) { ?>
         <div class="alert alert-warning mt-3" role="alert">
             <h1>No se han encontrado ventas</h1>
         </div>
-    <?php }?>
+    <?php } ?>
 </div>
