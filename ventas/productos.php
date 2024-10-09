@@ -8,12 +8,12 @@ if(empty($_SESSION['usuario'])) header("location: login.php");
 $nombreProducto = (isset($_POST['nombreProducto'])) ? $_POST['nombreProducto'] : null;
 
 $productos = obtenerProductos($nombreProducto);
-
+ 
 $cartas = [
     ["titulo" => "No. Productos", "icono" => "fa fa-box", "total" => count($productos), "color" => "#3578FE"],
     ["titulo" => "Total productos", "icono" => "fa fa-shopping-cart", "total" => obtenerNumeroProductos(), "color" => "#4F7DAF"],
-    ["titulo" => "Total inventario", "icono" => "fa fa-money-bill", "total" => "$". obtenerTotalInventario(), "color" => "#1FB824"],
-    ["titulo" => "Ganancia", "icono" => "fa fa-wallet", "total" => "$". calcularGananciaProductos(), "color" => "#D55929"],
+    ["titulo" => "Total inventario", "icono" => "fa fa-money-bill", "total" => "$". number_format( obtenerTotalInventario(), 0, ',', '.'), "color" => "#1FB824"],
+    ["titulo" => "Ganancia", "icono" => "fa fa-wallet", "total" => "$". number_format( calcularGananciaProductos(), 0, ',', '.'), "color" => "#D55929"],
 ];
 ?>
 <div class="container mt-3">
@@ -53,10 +53,10 @@ $cartas = [
                 <tr>
                     <td><?= $producto->codigo; ?></td>
                     <td><?= $producto->nombre; ?></td>
-                    <td><?= '$'.$producto->compra; ?></td>
-                    <td><?= '$'.$producto->venta; ?></td>
-                    <td><?= '$'. floatval($producto->venta - $producto->compra); ?></td>
-                    <td><?= $producto->existencia; ?></td>
+                    <td><?= '$'. number_format($producto->compra, 0, ',', '.'); ?></td>
+                    <td><?= '$'. number_format($producto->venta, 0, ',', '.'); ?></td>
+                    <td><?= '$'. number_format(floatval($producto->venta - $producto->compra), 0, ',', '.'); ?></td>
+                    <td><?= number_format($producto->existencia, 0, ',', '.'); ?></td>
                     <td>
                         <a class="btn btn-info" href="editar_producto.php?id=<?= $producto->id; ?>">
                             <i class="fa fa-edit"></i>
