@@ -1,13 +1,13 @@
 <?php
 include_once "encabezado.php";
 ?>
-<div class="container">
-    <div class="row m-5 no-gutters shadow-lg">
-        <div class="col-md-6 d-none d-md-block">
-            <img src="logo_principal.png" class="img-fluid" style="min-height:100%;" />
-        </div>
-        <div class="col-md-6 bg-white p-5">
-            <h3 class="pb-3">Iniciar sesión</h3>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="row shadow-lg" style="max-width: 500px; width: 100%;">
+        <div class="col-md-12 bg-white p-4 text-center">
+
+            <img src="logo_princi.png" class="img-fluid mb-2" alt="Logo" style="max-width: 250px;">
+            
+            <h3 class="pb-1">Iniciar sesión</h3>
             <div>
                 <form action="iniciar_sesion.php" method="post">
                     <div class="form-group pb-3">

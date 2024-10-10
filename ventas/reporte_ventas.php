@@ -127,7 +127,7 @@ $usuarios = obtenerUsuarios();
     </table>
     <?php }?>
     <?php if(count($ventas) < 1){?>
-        <div class="alert alert-warning mt-3" role="alert">
+        <div class="alert alert-danger mt-3" role="alert">
             <h1>No se han encontrado ventas</h1>
         </div>
     <?php }?>
