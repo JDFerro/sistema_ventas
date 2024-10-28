@@ -25,4 +25,5 @@ jobs:
         run: composer install
 
       - name: Run PHPUnit tests
-        run: ./tests/FuncionesTest.php --configuration phpunit.xml tests
+        run: ./vendor/bin/phpunit --configuration phpunit.xml.dist tests
+
