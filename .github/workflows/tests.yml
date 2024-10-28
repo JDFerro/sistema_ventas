@@ -25,4 +25,4 @@ jobs:
         run: composer install
 
       - name: Run PHPUnit tests
-        run: ./test --configuration phpunit.xml tests
+        run: ./test/FuncionesTest.php --configuration phpunit.xml tests
