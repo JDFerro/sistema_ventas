@@ -14,12 +14,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'  # Cambia la versión según la versión PHP de tu proyecto
+          php-version: '11.4' 
 
       - name: Install dependencies
         run: composer install
