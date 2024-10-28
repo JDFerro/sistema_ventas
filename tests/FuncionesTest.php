@@ -1,13 +1,13 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Asegúrate de que la función que estás probando esté incluida aquí
-require_once 'C:\xampp\htdocs\sistema_ventas\funciones.php'; // Cambia la ruta si es necesario
+
+require_once 'C:\xampp\htdocs\sistema_ventas\funciones.php'; // 
 
 class FuncionesTest extends TestCase {
     
     public function testIniciarSesion() {
-        // Configurar el mock de la función select
+        // Configura el mock de la función select
         $usuarioMock = (object) [
             'id' => 1,
             'usuario' => 'testuser'
