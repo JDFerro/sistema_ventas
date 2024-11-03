@@ -424,10 +424,10 @@ function editar($sentencia, $parametros ){
 }
 
 function conectarBaseDatos() {
-	$host = "localhost";
+	$host = "mysql";
 	$db   = "ventas_php";
 	$user = "root";
-	$pass = "";
+	$pass = "12345";
 	$charset = 'utf8mb4';
 
 	$options = [

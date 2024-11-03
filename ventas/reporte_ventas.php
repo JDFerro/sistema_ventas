@@ -1,9 +1,11 @@
 <?php
+ob_start();
+session_start();
 include_once "encabezado.php";
 include_once "navbar.php";
 include_once "funciones.php";
-session_start();
-if(empty($_SESSION['usuario'])) header("location: login.php");
+
+//if(empty($_SESSION['usuario'])) header("location: login.php");
 
 if(isset($_POST['buscar'])){
     if(empty($_POST['inicio']) || empty($_POST['fin'])) header("location: reporte_ventas.php");
@@ -33,6 +35,8 @@ $cartas = [
 
 $clientes = obtenerClientes();
 $usuarios = obtenerUsuarios();
+ob_end_flush();
+
 ?>
 <div class="container">
     <h2>Reporte de ventas : 
@@ -132,3 +136,5 @@ $usuarios = obtenerUsuarios();
         </div>
     <?php }?>
 </div>
+
+

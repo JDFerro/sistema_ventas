@@ -1,4 +1,5 @@
-<?php   
+<?php  
+    ob_start();
     include_once "funciones.php";
     session_start();
     if(isset($_POST['agregar'])){
@@ -19,7 +20,8 @@
             $_SESSION['lista'] = agregarProductoALista($producto,  $_SESSION['lista']);
             unset($_POST['codigo']);
             header("location: vender.php");
+            exit();
         }
     }
-
+ob_end_flush();
 ?>
