@@ -2,7 +2,7 @@
 use PHPUnit\Framework\TestCase;
 
 
-require_once 'C:\xampp\htdocs\sistema_ventas\ventas\funciones.php';
+require_once 'C:\xampp\htdocs\sistema_ventas\funciones.php'; // 
 
 class FuncionesTest extends TestCase {
     
