@@ -2,7 +2,7 @@
 use PHPUnit\Framework\TestCase;
 
 
-require_once 'C:\xampp\htdocs\sistema_ventas\funciones.php'; // 
+require_once 'C:\xampp\htdocs\sistema_ventas\ventas\funciones.php';
 
 class FuncionesTest extends TestCase {
     
@@ -62,7 +62,7 @@ class FuncionesTest extends TestCase {
     // Mock para la función select
     private function mockSelectFunction($resultado) {
         // Sobrescribimos la función select
-        function select($sentencia, $parametros) {
+        function mockSelect($sentencia, $parametros) {
             global $resultado; // Usamos la variable global de prueba
             return $resultado;
         }
