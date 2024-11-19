@@ -4,7 +4,9 @@
          stopOnFailure="true">
     <testsuites>
         <testsuite name="Default">
-            <directory>./tests</directory>
+            <directory><div class="funciones"/>
+            <tests/>
+            <FuncionesTest class="php"></FuncionesTest></directory>
         </testsuite>
     </testsuites>
     <php>
