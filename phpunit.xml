@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="vendor/autoload.php"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.0/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
          colors="true"
          stopOnFailure="true">
     <testsuites>
         <testsuite name="Default">
-            <directory><div class="funciones"/>
-            <tests/>
-            <FuncionesTest class="php"></FuncionesTest></directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
     <php>

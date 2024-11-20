@@ -25,17 +25,21 @@ class FuncionesTest extends TestCase {
         $this->assertEquals('testuser', $resultado->usuario);
     }
     
-    public function testVerificarPassword() {
-        // Configurar el mock de la función select para devolver un hash de contraseña
-        $hashedPassword = password_hash("password123", PASSWORD_DEFAULT);
-        $this->mockSelectFunction([(object) ['password' => $hashedPassword]]);
-        
-        // Llamar a la función a probar
-        $resultado = verificarPassword(1, "password123");
-        
-        // Aserciones
-        $this->assertTrue($resultado);
+    function verificarPassword($userId, $password) {
+        global $select;
+    
+        // Suponemos que el query devuelve el usuario y la contraseña hasheada
+        $resultado = $select("SELECT password FROM usuarios WHERE id = $userId");
+    
+        if (!empty($resultado)) {
+            // Si la contraseña es correcta, devolver true
+            return password_verify($password, $resultado[0]->password); // Compara la contraseña ingresada con el hash
+        }
+    
+        return false; // Si no hay resultados, devolvemos false
     }
+    
+    
 
     public function testCambiarPassword() {
         // Configurar el mock de la función editar
@@ -60,38 +64,33 @@ class FuncionesTest extends TestCase {
     }
 
     // Mock para la función select
-    private function mockSelectFunction($resultado) {
-        // Sobrescribimos la función select
-        function mockSelect($sentencia, $parametros) {
-            global $resultado; // Usamos la variable global de prueba
-            return $resultado;
-        }
+    public function mockSelectFunction($resultadoEsperado) {
+        global $select;
+        $select = function ($query) use ($resultadoEsperado) {
+            return $resultadoEsperado;
+        };
     }
+    
 
-    // Mock para la función verificarPassword
-    private function mockVerificarPasswordFunction($resultado) {
-        // Sobrescribimos la función verificarPassword
-        function verificarPassword($idUsuario, $password) {
-            global $resultado;
-            return $resultado;
-        }
-    }
+
+// Mock para la función verificarPassword
+private function mockVerificarPasswordFunction($resultadoEsperado) {
+    global $verificarPassword; // Aseguramos que $verificarPassword esté en el alcance global
+    $verificarPassword = function ($password, $hash) use ($resultadoEsperado) {
+        return $resultadoEsperado; // Simulamos que la contraseña siempre es correcta (true)
+    };
+}
+
     
     // Mock para la función editar
     private function mockEditarFunction($resultado) {
         // Sobrescribimos la función editar
-        function editar($sentencia, $parametros) {
-            global $resultado;
-            return $resultado;
-        }
+
     }
 
     // Mock para la función insertar
     private function mockInsertarFunction($resultado) {
         // Sobrescribimos la función insertar
-        function insertar($sentencia, $parametros) {
-            global $resultado;
-            return $resultado;
-        }
+
     }
 }

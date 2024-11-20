@@ -3,15 +3,23 @@
 define("PASSWORD_PREDETERMINADA", "PacoHunterDev");
 define("HOY", date("Y-m-d"));
 
-function iniciarSesion($usuario, $password){
-    $sentencia = "SELECT id, usuario FROM usuarios WHERE usuario  = ?";
-    $resultado = select($sentencia, [$usuario]);
-    if($resultado){
-        $usuario = $resultado[0];
-        $verificaPass = verificarPassword($usuario->id, $password);
-        if($verificaPass) return $usuario;
+function iniciarSesion($usuario, $password) {
+    global $select, $verificarPassword;
+
+    // Obtener el usuario de la base de datos
+    $resultado = $select("SELECT * FROM usuarios WHERE usuario = '$usuario'");
+    if (!empty($resultado)) {
+        $usuarioData = $resultado[0]; // Asumimos que es un objeto
+
+        // Verificar contraseña
+        if ($verificarPassword($password, $usuarioData->password)) {
+            return $usuarioData; // Retornar el usuario si todo está bien
+        }
     }
+
+    return null; // Retornar null si falla algo
 }
+
 
 function verificarPassword($idUsuario, $password){
     $sentencia = "SELECT password FROM usuarios WHERE id = ?";
