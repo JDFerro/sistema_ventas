@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="c:/xampp/htdocs/sistema_ventas/ventas/funciones.php"
+<phpunit bootstrap="ventas/funciones.php"
          colors="true"
          stopOnFailure="true">
     <testsuites>
         <testsuite name="Default">
-            <file>c:/xampp/htdocs/sistema_ventas/tests/FuncionesTest.php</file>
+            <file>tests/FuncionesTest.php</file>
         </testsuite>
     </testsuites>
     <php>
