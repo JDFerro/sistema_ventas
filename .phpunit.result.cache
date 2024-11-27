@@ -1,1 +1,1 @@
-{"version":1,"defects":{"IntegracionTest::testAgregarCliente":8},"times":{"IntegracionTest::testAgregarCliente":0.049}}
+{"version":1,"defects":{"IntegracionTest::testAgregarCliente":8,"IntegracionTest::testAgregarProducto":7,"IntegracionTest::testAgregarProductoVenta":7},"times":{"IntegracionTest::testAgregarCliente":0.041,"IntegracionTest::testAgregarProducto":0.024,"IntegracionTest::testAgregarUsuario":0.017,"IntegracionTest::testAgregarProductoVenta":0.046}}
