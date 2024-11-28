@@ -57,7 +57,6 @@ if(isset($_POST['registrar'])){
         </div>';
         limpiarDatosSesion();
     }
-    
 }
 
 function limpiarDatosSesion() {
@@ -65,6 +64,5 @@ function limpiarDatosSesion() {
     unset($_POST['telefono']);
     unset($_POST['direccion']);
 }
-
 
 ?>
