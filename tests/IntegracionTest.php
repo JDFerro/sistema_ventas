@@ -10,7 +10,9 @@ class IntegracionTest extends TestCase
     public function testAgregarCliente()
     {
         // Iniciar sesión
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
 
         // Datos del cliente a agregar
         $nombre = 'Juan';
@@ -22,9 +24,9 @@ class IntegracionTest extends TestCase
         $_POST['telefono'] = $telefono;
         $_POST['direccion'] = $direccion;
 
-        // Incluir el archivo que maneja la lógica de agregar cliente
-        include_once __DIR__ . '/../ventas/agregar_cliente.php';
-        include_once __DIR__ . '/../ventas/funciones.php'; // Asegúrate de incluir el archivo de funciones
+        // Llamar directamente a la función que maneja la lógica de agregar cliente
+        include_once __DIR__ . '/../ventas/funciones.php';
+        $resultado = registrarCliente($nombre, $telefono, $direccion);
 
         // Verificar que el cliente fue agregado correctamente
         $clientes = obtenerClientes(); // Asumiendo que tienes una función para obtener los clientes
@@ -43,14 +45,16 @@ class IntegracionTest extends TestCase
     public function testAgregarProducto()
     {
         // Iniciar sesión
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
 
         // Datos del producto a agregar
         $codigo = '11111';
         $nombre = 'platonos';
         $compra = 13000;
         $venta = 15000;
-        $existencia = 19;
+        $existencia = 18;
 
         // Simular la solicitud POST para agregar un producto
         $_POST['codigo'] = $codigo;
@@ -59,9 +63,9 @@ class IntegracionTest extends TestCase
         $_POST['venta'] = $venta;
         $_POST['existencia'] = $existencia;
 
-        // Incluir el archivo que maneja la lógica de agregar producto
-        include_once __DIR__ . '/../ventas/agregar_producto.php';
-        include_once __DIR__ . '/../ventas/funciones.php'; // Asegúrate de incluir el archivo de funciones
+        // Llamar directamente a la función que maneja la lógica de agregar producto
+        include_once __DIR__ . '/../ventas/funciones.php';
+        $resultado = registrarProducto($codigo, $nombre, $compra, $venta, $existencia);
 
         // Verificar que el producto fue agregado correctamente
         $productos = obtenerProductos(); // Asumiendo que tienes una función para obtener los productos
@@ -84,7 +88,9 @@ class IntegracionTest extends TestCase
     public function testAgregarUsuario()
     {
         // Iniciar sesión
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
 
         // Datos del usuario a agregar
         $usuario = 'carlos';
@@ -98,9 +104,9 @@ class IntegracionTest extends TestCase
         $_POST['telefono'] = $telefono;
         $_POST['direccion'] = $direccion;
 
-        // Incluir el archivo que maneja la lógica de agregar usuario
-        include_once __DIR__ . '/../ventas/agregar_usuario.php';
-        include_once __DIR__ . '/../ventas/funciones.php'; // Asegúrate de incluir el archivo de funciones
+        // Llamar directamente a la función que maneja la lógica de agregar usuario
+        include_once __DIR__ . '/../ventas/funciones.php';
+        $resultado = registrarUsuario($usuario, $nombre, $telefono, $direccion);
 
         // Verificar que el usuario fue agregado correctamente
         $usuarios = obtenerUsuarios(); // Asumiendo que tienes una función para obtener los usuarios
@@ -121,7 +127,9 @@ class IntegracionTest extends TestCase
     public function testAgregarProductoVenta()
     {
         // Iniciar sesión
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
 
         // Inicializar la lista de productos en la sesión
         $_SESSION['lista'] = [];
@@ -137,9 +145,9 @@ class IntegracionTest extends TestCase
         $_POST['codigo'] = $codigo;
         $_POST['agregar'] = true; // Asegurarse de que el campo 'agregar' esté presente
 
-        // Incluir el archivo que maneja la lógica de agregar producto a la venta
-        include_once __DIR__ . '/../ventas/agregar_producto_venta.php';
-        include_once __DIR__ . '/../ventas/funciones.php'; // Asegúrate de incluir el archivo de funciones
+        // Llamar directamente a la función que maneja la lógica de agregar producto a la venta
+        include_once __DIR__ . '/../ventas/funciones.php';
+        $_SESSION['lista'] = agregarProductoALista($producto, $_SESSION['lista']);
 
         // Verificar que el producto fue agregado correctamente a la lista de la sesión
         $listaProductos = $_SESSION['lista'];
