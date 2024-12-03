@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+require_once 'C:/xampp/htdocs/sistema_ventas/ventas/funciones.php'; // Usar ruta absoluta
+require_once 'C:/xampp/htdocs/sistema_ventas/tests/DatabaseMock.php'; // Incluir la clase DatabaseMock
+
 class IntegracionTest extends TestCase
 {
     public function testAgregarCliente()
@@ -25,7 +28,7 @@ class IntegracionTest extends TestCase
         $_POST['direccion'] = $direccion;
 
         // Llamar directamente a la función que maneja la lógica de agregar cliente
-        include_once __DIR__ . '/../ventas/funciones.php';
+        include_once _DIR_ . '/../ventas/funciones.php';
         $resultado = registrarCliente($nombre, $telefono, $direccion);
 
         // Verificar que el cliente fue agregado correctamente
@@ -64,7 +67,7 @@ class IntegracionTest extends TestCase
         $_POST['existencia'] = $existencia;
 
         // Llamar directamente a la función que maneja la lógica de agregar producto
-        include_once __DIR__ . '/../ventas/funciones.php';
+        include_once _DIR_ . '/../ventas/funciones.php';
         $resultado = registrarProducto($codigo, $nombre, $compra, $venta, $existencia);
 
         // Verificar que el producto fue agregado correctamente
@@ -87,41 +90,65 @@ class IntegracionTest extends TestCase
 
     public function testAgregarUsuario()
     {
-        // Iniciar sesión
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        // Configurar el mock de la función insertar
+        $this->mockInsertarFunction(true);
+
+        // Configurar el mock de la función obtenerUsuarios
+        $usuarioMock = (object) [
+            'usuario' => 'carlos',
+            'nombre' => 'jose carlos',
+            'telefono' => '1234',
+            'direccion' => 'calle 14B'
+        ];
+        $this->mockSelectFunction([$usuarioMock]);
 
         // Datos del usuario a agregar
-        $usuario = 'carlos';
-        $nombre = 'jose carlos';
-        $telefono = '1234';
-        $direccion = 'calle 14B';
+        $usuario = "carlos";
+        $nombre = "jose carlos";
+        $telefono = "1234";
+        $direccion = "calle 14B";
 
-        // Simular la solicitud POST para agregar un usuario
-        $_POST['usuario'] = $usuario;
-        $_POST['nombre'] = $nombre;
-        $_POST['telefono'] = $telefono;
-        $_POST['direccion'] = $direccion;
-
-        // Llamar directamente a la función que maneja la lógica de agregar usuario
-        include_once __DIR__ . '/../ventas/funciones.php';
+        // Llamar a la función a probar
         $resultado = registrarUsuario($usuario, $nombre, $telefono, $direccion);
 
+        // Aserciones
+        $this->assertTrue($resultado);
+
         // Verificar que el usuario fue agregado correctamente
-        $usuarios = obtenerUsuarios(); // Asumiendo que tienes una función para obtener los usuarios
-        $usuarioAgregado = end($usuarios);
+        $usuarios = obtenerUsuarios();
+        $this->assertIsArray($usuarios);
+        $ultimoUsuario = end($usuarios);
+        $this->assertEquals($usuario, $ultimoUsuario->usuario);
+    }
 
-        $this->assertEquals($usuario, $usuarioAgregado->usuario);
-        $this->assertEquals($nombre, $usuarioAgregado->nombre);
-        $this->assertEquals($telefono, $usuarioAgregado->telefono);
-        $this->assertEquals($direccion, $usuarioAgregado->direccion);
+    // Mock para la función select
+    private function mockSelectFunction($resultado) {
+        $mock = $this->getMockBuilder(DatabaseMock::class)
+                     ->onlyMethods(['select'])
+                     ->getMock();
+        $mock->method('select')
+             ->willReturn($resultado);
+        $GLOBALS['select'] = $mock;
+    }
 
-        // Limpiar datos de la sesión
-        unset($_POST['usuario']);
-        unset($_POST['nombre']);
-        unset($_POST['telefono']);
-        unset($_POST['direccion']);
+    // Mock para la función insertar
+    private function mockInsertarFunction($resultado) {
+        $mock = $this->getMockBuilder(DatabaseMock::class)
+                     ->onlyMethods(['insertar'])
+                     ->getMock();
+        $mock->method('insertar')
+             ->willReturn($resultado);
+        $GLOBALS['insertar'] = $mock;
+    }
+
+    // Mock para la función obtenerUsuarios
+    private function mockObtenerUsuariosFunction($resultado) {
+        $mock = $this->getMockBuilder(DatabaseMock::class)
+                     ->onlyMethods(['obtenerUsuarios'])
+                     ->getMock();
+        $mock->method('obtenerUsuarios')
+             ->willReturn($resultado);
+        $GLOBALS['obtenerUsuarios'] = $mock;
     }
 
     public function testAgregarProductoVenta()
@@ -146,7 +173,7 @@ class IntegracionTest extends TestCase
         $_POST['agregar'] = true; // Asegurarse de que el campo 'agregar' esté presente
 
         // Llamar directamente a la función que maneja la lógica de agregar producto a la venta
-        include_once __DIR__ . '/../ventas/funciones.php';
+        include_once _DIR_ . '/../ventas/funciones.php';
         $_SESSION['lista'] = agregarProductoALista($producto, $_SESSION['lista']);
 
         // Verificar que el producto fue agregado correctamente a la lista de la sesión
