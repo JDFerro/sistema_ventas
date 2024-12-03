@@ -425,10 +425,10 @@ function editar($sentencia, $parametros ){
 }
 
 function conectarBaseDatos() {
-    $host = "localhost";
-    $db   = "ventas_php";
-    $user = "root";
-    $pass = "12345"; 
+    $host = getenv('DB_HOST') ?: 'localhost';
+    $db   = getenv('DB_DATABASE') ?: 'ventas_php';
+    $user = getenv('DB_USERNAME') ?: 'root';
+    $pass = getenv('DB_PASSWORD') ?: '12345';
     $charset = 'utf8mb4';
 
     $options = [
