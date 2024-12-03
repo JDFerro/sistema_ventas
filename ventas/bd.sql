@@ -1,8 +1,6 @@
-CREATE DATABASE ventas_php;
-
 USE ventas_php;
 
-CREATE TABLE productos(
+CREATE TABLE IF NOT EXISTS productos(
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     codigo VARCHAR(255) NOT NULL,
     nombre VARCHAR(255) NOT NULL,
@@ -11,14 +9,14 @@ CREATE TABLE productos(
     existencia INT NOT NULL
 );
 
-CREATE TABLE clientes(
+CREATE TABLE IF NOT EXISTS clientes(
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     telefono VARCHAR(25) NOT NULL,
     direccion VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE usuarios(
+CREATE TABLE IF NOT EXISTS usuarios(
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     usuario VARCHAR(50) NOT NULL,
     nombre VARCHAR(255) NOT NULL,
@@ -29,7 +27,7 @@ CREATE TABLE usuarios(
 
 INSERT INTO usuarios (usuario, nombre, telefono, direccion, password) VALUES ("JDFerro", "Juan David Ferro Ruiz", "3183423251", "calle 14B", "$2y$10$URrPIuLfqyKsFpiMLc.Sne.tT6ifWvqKwQ9IbD7PtIJhvBdrw1SBC");
 
-CREATE TABLE ventas(
+CREATE TABLE IF NOT EXISTS ventas(
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     fecha DATETIME NOT NULL,
     total DECIMAL(9,2) NOT NULL,
@@ -37,7 +35,7 @@ CREATE TABLE ventas(
     idCliente BIGINT
 );  
 
-CREATE TABLE productos_ventas(
+CREATE TABLE IF NOT EXISTS productos_ventas(
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     cantidad INT NOT NULL,
     precio DECIMAL(8,2) NOT NULL,
