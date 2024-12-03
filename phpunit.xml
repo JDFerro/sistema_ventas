@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="vendor/autoload.php"
-         colors="true"
-         stopOnFailure="true">
+<phpunit
+    bootstrap="vendor/autoload.php"
+    colors="true"
+    stopOnFailure="false"
+    stopOnWarning="false"
+    failOnWarning="false"
+    failOnRisky="false"
+>
     <testsuites>
-        <testsuite name="Default">
+        <testsuite name="SistemaVentas">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>
