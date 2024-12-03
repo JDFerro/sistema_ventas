@@ -28,7 +28,7 @@ class IntegracionTest extends TestCase
         $_POST['direccion'] = $direccion;
 
         // Llamar directamente a la función que maneja la lógica de agregar cliente
-        include_once _DIR_ . '/../ventas/funciones.php';
+        include_once __DIR__ . '/../ventas/funciones.php';
         $resultado = registrarCliente($nombre, $telefono, $direccion);
 
         // Verificar que el cliente fue agregado correctamente
@@ -67,7 +67,7 @@ class IntegracionTest extends TestCase
         $_POST['existencia'] = $existencia;
 
         // Llamar directamente a la función que maneja la lógica de agregar producto
-        include_once _DIR_ . '/../ventas/funciones.php';
+        include_once __DIR__ . '/../ventas/funciones.php';
         $resultado = registrarProducto($codigo, $nombre, $compra, $venta, $existencia);
 
         // Verificar que el producto fue agregado correctamente
@@ -173,7 +173,7 @@ class IntegracionTest extends TestCase
         $_POST['agregar'] = true; // Asegurarse de que el campo 'agregar' esté presente
 
         // Llamar directamente a la función que maneja la lógica de agregar producto a la venta
-        include_once _DIR_ . '/../ventas/funciones.php';
+        include_once __DIR__ . '/../ventas/funciones.php';
         $_SESSION['lista'] = agregarProductoALista($producto, $_SESSION['lista']);
 
         // Verificar que el producto fue agregado correctamente a la lista de la sesión
