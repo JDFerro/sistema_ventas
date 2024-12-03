@@ -16,7 +16,7 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: 12345
           MYSQL_DATABASE: ventas_php
         ports:
           - 3306:3306
@@ -42,10 +42,10 @@ jobs:
         run: sleep 30
 
       - name: Create database
-        run: mysql -h 127.0.0.1 -P 3306 -u root -proot -e "CREATE DATABASE IF NOT EXISTS ventas_php;"
+        run: mysql -h 127.0.0.1 -P 3306 -u root -p12345 -e "CREATE DATABASE IF NOT EXISTS ventas_php;"
 
       - name: Run migrations or seed database
-        run: mysql -h 127.0.0.1 -P 3306 -u root -proot ventas_php < ./ventas/bd.sql
+        run: mysql -h 127.0.0.1 -P 3306 -u root -p12345 ventas_php < ./ventas/bd.sql
 
       - name: Give execute permissions to PHPUnit
         run: chmod +x ./vendor/bin/phpunit
