@@ -5,8 +5,8 @@ use PHPUnit\Framework\TestCase;
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require_once 'C:/xampp/htdocs/sistema_ventas/ventas/funciones.php'; // Usar ruta absoluta
-require_once 'C:/xampp/htdocs/sistema_ventas/tests/DatabaseMock.php'; // Incluir la clase DatabaseMock
+require_once __DIR__ . '/../ventas/funciones.php'; // Usar ruta relativa
+require_once __DIR__ . '/DatabaseMock.php'; // Usar ruta relativa
 
 class IntegracionTest extends TestCase
 {

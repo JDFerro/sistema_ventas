@@ -1,8 +1,8 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-require_once 'C:/xampp/htdocs/sistema_ventas/ventas/funciones.php'; // Usar ruta absoluta
-require_once 'C:/xampp/htdocs/sistema_ventas/tests/DatabaseMock.php'; // Incluir la clase DatabaseMock
+require_once __DIR__ . '/../ventas/funciones.php'; // Usar ruta relativa
+require_once __DIR__ . '/DatabaseMock.php'; // Usar ruta relativa
 
 class FuncionesTest extends TestCase {
     
