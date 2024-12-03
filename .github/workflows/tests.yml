@@ -42,7 +42,7 @@ jobs:
         run: sleep 30
 
       - name: Run migrations or seed database
-        run: php ./path/to/your/migration/script.php
+        run: mysql -h 127.0.0.1 -P 3306 -u root -proot ventas_php < ./ventas/bd.sql
 
       - name: Give execute permissions to PHPUnit
         run: chmod +x ./vendor/bin/phpunit
