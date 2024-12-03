@@ -1,8 +1,8 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-
-require_once 'C:\xampp\htdocs\sistema_ventas\funciones.php'; // 
+require_once 'C:/xampp/htdocs/sistema_ventas/ventas/funciones.php'; // Usar ruta absoluta
+require_once 'C:/xampp/htdocs/sistema_ventas/tests/DatabaseMock.php'; // Incluir la clase DatabaseMock
 
 class FuncionesTest extends TestCase {
     
@@ -49,49 +49,84 @@ class FuncionesTest extends TestCase {
     }
     
     public function testRegistrarUsuario() {
+        // Datos del usuario a agregar
+        $usuario = "carlos";
+        $nombre = "jose carlos";
+        $telefono = "1234";
+        $direccion = "calle 14B";
+
         // Configurar el mock de la función insertar
         $this->mockInsertarFunction(true);
-        
+
+        // Configurar el mock de la función obtenerUsuarios
+        $usuarioMock = (object) [
+            'usuario' => $usuario,
+            'nombre' => $nombre,
+            'telefono' => $telefono,
+            'direccion' => $direccion
+        ];
+        $this->mockSelectFunction([$usuarioMock]);
+
         // Llamar a la función a probar
-        $resultado = registrarUsuario("nuevo_usuario", "Nombre", "123456789", "Direccion");
-        
+        $resultado = registrarUsuario($usuario, $nombre, $telefono, $direccion);
+
         // Aserciones
         $this->assertTrue($resultado);
+
+        // Verificar que el usuario fue agregado correctamente
+        $usuarios = obtenerUsuarios();
+        $this->assertIsArray($usuarios);
+        $ultimoUsuario = end($usuarios);
+        $this->assertEquals($usuario, $ultimoUsuario->usuario);
     }
 
     // Mock para la función select
     private function mockSelectFunction($resultado) {
-        // Sobrescribimos la función select
-        function mockSelect($sentencia, $parametros) {
-            global $resultado; // Usamos la variable global de prueba
-            return $resultado;
-        }
+        $mock = $this->getMockBuilder(DatabaseMock::class)
+                     ->onlyMethods(['select'])
+                     ->getMock();
+        $mock->method('select')
+             ->willReturn($resultado);
+        $GLOBALS['select'] = $mock;
     }
 
     // Mock para la función verificarPassword
     private function mockVerificarPasswordFunction($resultado) {
-        // Sobrescribimos la función verificarPassword
-        function verificarPassword($idUsuario, $password) {
-            global $resultado;
-            return $resultado;
-        }
+        $mock = $this->getMockBuilder(DatabaseMock::class)
+                     ->onlyMethods(['verificarPassword'])
+                     ->getMock();
+        $mock->method('verificarPassword')
+             ->willReturn($resultado);
+        $GLOBALS['verificarPassword'] = $mock;
     }
     
     // Mock para la función editar
     private function mockEditarFunction($resultado) {
-        // Sobrescribimos la función editar
-        function editar($sentencia, $parametros) {
-            global $resultado;
-            return $resultado;
-        }
+        $mock = $this->getMockBuilder(DatabaseMock::class)
+                     ->onlyMethods(['editar'])
+                     ->getMock();
+        $mock->method('editar')
+             ->willReturn($resultado);
+        $GLOBALS['editar'] = $mock;
     }
 
     // Mock para la función insertar
     private function mockInsertarFunction($resultado) {
-        // Sobrescribimos la función insertar
-        function insertar($sentencia, $parametros) {
-            global $resultado;
-            return $resultado;
-        }
+        $mock = $this->getMockBuilder(DatabaseMock::class)
+                     ->onlyMethods(['insertar'])
+                     ->getMock();
+        $mock->method('insertar')
+             ->willReturn($resultado);
+        $GLOBALS['insertar'] = $mock;
+    }
+
+    // Mock para la función obtenerUsuarios
+    private function mockObtenerUsuariosFunction($resultado) {
+        $mock = $this->getMockBuilder(DatabaseMock::class)
+                     ->onlyMethods(['obtenerUsuarios'])
+                     ->getMock();
+        $mock->method('obtenerUsuarios')
+             ->willReturn($resultado);
+        $GLOBALS['obtenerUsuarios'] = $mock;
     }
 }
