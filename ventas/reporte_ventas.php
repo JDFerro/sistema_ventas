@@ -122,7 +122,12 @@ ob_end_flush();
                                     <td>$<?=  $producto->precio ;?></td>
                                     <th>$<?= $producto->cantidad * $producto->precio ;?></th>
                                 </tr>
-                                <?php }?>
+                            <?php }?>
+                            <tr>
+                                <td colspan="4" class="text-end"><strong>Total:</strong></td>
+                                <td><strong>$<?= $venta->total;?></strong></td>
+                                <td><a href="factura.php?id=<?= $venta->id;?>" class="btn btn-info">Generar Factura</a></td>
+                            </tr>
                         </table>
                     </td>
                 </tr>
@@ -136,5 +141,3 @@ ob_end_flush();
         </div>
     <?php }?>
 </div>
-
-
