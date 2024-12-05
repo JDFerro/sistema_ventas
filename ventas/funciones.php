@@ -443,3 +443,12 @@ function conectarBaseDatos() {
 	     throw new \PDOException($e->getMessage(), (int)$e->getCode());
 	}
 }
+
+function obtenerVentaPorId($idVenta) {
+    $sentencia = "SELECT ventas.*, usuarios.usuario, IFNULL(clientes.nombre, 'MOSTRADOR') AS cliente
+                  FROM ventas
+                  INNER JOIN usuarios ON usuarios.id = ventas.idUsuario
+                  LEFT JOIN clientes ON clientes.id = ventas.idCliente
+                  WHERE ventas.id = ?";
+    return select($sentencia, [$idVenta])[0];
+}
