@@ -24,7 +24,7 @@ $productosMasVendidos = obtenerProductosMasVendidos();
 ?>
 
 <div class="container">
-	<div class="alert alert-info" role="alert">
+	<div class="alert alert-primary" role="alert" style="background-color: #1761ff; color: black;">
 		<h1>
 			Hola, <?= $_SESSION['usuario']?>
 		</h1>
