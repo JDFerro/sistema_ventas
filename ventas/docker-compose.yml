@@ -1,24 +1,37 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8080:80"  # Puedes cambiar el puerto según sea necesario
-    volumes:
-      - .:/var/www/html
-    depends_on:
-      - db
-
-  db:
-    image: mysql:5.7
-    restart: always
+  # Servicio MySQL
+  mysql:
+    image: mysql:latest
+    container_name: mysql-containers
     environment:
-      MYSQL_ROOT_PASSWORD:   # Cambia esta contraseña
-      MYSQL_DATABASE: ventas_php        # Cambia por el nombre de tu base de datos
-      MYSQL_USER: root            # Cambia por tu usuario
-      MYSQL_PASSWORD:          # Cambia por tu contraseña
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: ventas_php # Cambiar a tu base de datos
+    volumes:
+      - mysql-data:/var/lib/mysql
     ports:
       - "3306:3306"
+
+  # Servicio PHP para tu aplicación
+  php:
+    
+    image: sistemas-ventas:latest
+    container_name: php-container
+    ports:
+      - "80:80" # Cambia si necesitas otro puerto para PHP
+    volumes:
+      - .:/var/www/html # Esto monta el directorio actual en el contenedor
+    depends_on:
+      - mysql
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ventas_php
+      DB_USERNAME: root
+      DB_PASSWORD: 12345
+
+volumes:
+  mysql-data:
+    external: true

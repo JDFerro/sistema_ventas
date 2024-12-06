@@ -12,6 +12,5 @@
     <title>Ventas</title>
 </head>
 <body>
-    
 </body>
 </html>

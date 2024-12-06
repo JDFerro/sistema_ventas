@@ -1,9 +1,10 @@
 <?php
+session_start();
+if(empty($_SESSION['usuario'])) header("location: login.php");
 include_once "encabezado.php";
 include_once "navbar.php";
 include_once "funciones.php";
-session_start();
-if(empty($_SESSION['usuario'])) header("location: login.php");
+
 $cartas = [
     ["titulo" => "Total ventas", "icono" => "fa fa-money-bill", "total" => "$".obtenerTotalVentas(), "color" => "#A71D45"],
     ["titulo" => "Ventas hoy", "icono" => "fa fa-calendar-day", "total" => "$".obtenerTotalVentasHoy(), "color" => "#2A8D22"],
@@ -12,10 +13,10 @@ $cartas = [
 ];
 
 $totales = [
-	["nombre" => "Total productos", "total" => obtenerNumeroProductos(), "imagen" => "img/productos.png"],
-	["nombre" => "Ventas registradas", "total" => obtenerNumeroVentas(), "imagen" => "img/ventas.png"],
-	["nombre" => "Usuarios registrados", "total" => obtenerNumeroUsuarios(), "imagen" => "img/usuarios.png"],
-	["nombre" => "Clientes registrados", "total" => obtenerNumeroClientes(), "imagen" => "img/clientes.png"],
+	["nombre" => "Total productos", "total" => obtenerNumeroProductos(), "imagen" => "img/producto.png"],
+	["nombre" => "Ventas registradas", "total" => obtenerNumeroVentas(), "imagen" => "img/venta.png"],
+	["nombre" => "Usuarios registrados", "total" => obtenerNumeroUsuarios(), "imagen" => "img/usuario.png"],
+	["nombre" => "Clientes registrados", "total" => obtenerNumeroClientes(), "imagen" => "img/cliente.png"],
 ];
 
 $ventasUsuarios = obtenerVentasPorUsuario();
