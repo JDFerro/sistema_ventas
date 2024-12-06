@@ -1,5 +1,6 @@
 <?php
-include_once "encabezado.php";
+session_start();
+//include_once "encabezado.php";
 
 if(isset($_POST['ingresar'])){
     if(empty($_POST['usuario']) || empty($_POST['password'])){
@@ -16,7 +17,7 @@ if(isset($_POST['ingresar'])){
     $usuario = $_POST['usuario'];
     $password = $_POST['password'];
 
-    session_start();
+    
 
     $datosSesion = iniciarSesion($usuario, $password);
 
@@ -32,5 +33,6 @@ if(isset($_POST['ingresar'])){
     $_SESSION['usuario'] = $datosSesion->usuario;
     $_SESSION['idUsuario'] = $datosSesion->id;
     header("location: index.php");
+    exit();
 }
 ?>

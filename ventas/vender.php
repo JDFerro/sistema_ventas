@@ -1,9 +1,10 @@
 <?php
+session_start();
 include_once "encabezado.php";
 include_once "navbar.php";
 include_once "funciones.php";
-session_start();
-if(empty($_SESSION['usuario'])) header("location: login.php");
+
+//if(empty($_SESSION['usuario'])) header("location: login.php");
 $_SESSION['lista'] = (isset( $_SESSION['lista'])) ?  $_SESSION['lista'] : [];
 $total = calcularTotalLista($_SESSION['lista']);
 $clientes = obtenerClientes();
@@ -37,7 +38,12 @@ $clienteSeleccionado = (isset($_SESSION['clienteVenta'])) ? obtenerClientePorId(
                         <td><?php echo $lista->codigo;?></td>
                         <td><?php echo $lista->nombre;?></td>
                         <td>$<?php echo $lista->venta;?></td>
-                        <td><?php echo $lista->cantidad;?></td>
+                        <td>
+                            <form action="actualizar_cantidad_producto.php" method="post">
+                                <input type="hidden" name="idProducto" value="<?php echo $lista->id;?>">
+                                <input type="number" name="cantidad" value="<?php echo $lista->cantidad;?>" min="1" class="form-control" onchange="this.form.submit()">
+                            </form>
+                        </td>
                         <td>$<?php echo floatval($lista->cantidad * $lista->venta);?></td>
                         <td>
                             <a href="quitar_producto_venta.php?id=<?php echo $lista->id?>" class="btn btn-danger">

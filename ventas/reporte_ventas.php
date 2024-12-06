@@ -1,9 +1,11 @@
 <?php
+ob_start();
+session_start();
 include_once "encabezado.php";
 include_once "navbar.php";
 include_once "funciones.php";
-session_start();
-if(empty($_SESSION['usuario'])) header("location: login.php");
+
+//if(empty($_SESSION['usuario'])) header("location: login.php");
 
 if(isset($_POST['buscar'])){
     if(empty($_POST['inicio']) || empty($_POST['fin'])) header("location: reporte_ventas.php");
@@ -33,6 +35,8 @@ $cartas = [
 
 $clientes = obtenerClientes();
 $usuarios = obtenerUsuarios();
+ob_end_flush();
+
 ?>
 <div class="container">
     <h2>Reporte de ventas : 
@@ -118,7 +122,12 @@ $usuarios = obtenerUsuarios();
                                     <td>$<?=  $producto->precio ;?></td>
                                     <th>$<?= $producto->cantidad * $producto->precio ;?></th>
                                 </tr>
-                                <?php }?>
+                            <?php }?>
+                            <tr>
+                                <td colspan="4" class="text-end"><strong>Total:</strong></td>
+                                <td><strong>$<?= $venta->total;?></strong></td>
+                                <td><a href="factura.php?id=<?= $venta->id;?>" class="btn btn-info">Generar Factura</a></td>
+                            </tr>
                         </table>
                     </td>
                 </tr>
@@ -127,7 +136,7 @@ $usuarios = obtenerUsuarios();
     </table>
     <?php }?>
     <?php if(count($ventas) < 1){?>
-        <div class="alert alert-warning mt-3" role="alert">
+        <div class="alert alert-danger mt-3" role="alert">
             <h1>No se han encontrado ventas</h1>
         </div>
     <?php }?>

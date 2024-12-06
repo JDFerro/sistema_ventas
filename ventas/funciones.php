@@ -5,57 +5,55 @@ define("HOY", date("Y-m-d"));
 
 function iniciarSesion($usuario, $password){
     $sentencia = "SELECT id, usuario FROM usuarios WHERE usuario  = ?";
-    $resultado = isset($GLOBALS['select']) ? $GLOBALS['select']->select($sentencia, [$usuario]) : select($sentencia, [$usuario]);
+    $resultado = select($sentencia, [$usuario]);
     if($resultado){
         $usuario = $resultado[0];
-        $verificaPass = isset($GLOBALS['verificarPassword']) ? $GLOBALS['verificarPassword']->verificarPassword($usuario->id, $password) : verificarPassword($usuario->id, $password);
+        $verificaPass = verificarPassword($usuario->id, $password);
         if($verificaPass) return $usuario;
     }
-    return null;
 }
 
 function verificarPassword($idUsuario, $password){
     $sentencia = "SELECT password FROM usuarios WHERE id = ?";
-    $contrasenia = isset($GLOBALS['select']) ? $GLOBALS['select']->select($sentencia, [$idUsuario])[0]->password : select($sentencia, [$idUsuario])[0]->password;
+    $contrasenia = select($sentencia, [$idUsuario])[0]->password;
     $verifica = password_verify($password, $contrasenia);
     if($verifica) return true;
-    return false;
 }
 
 function cambiarPassword($idUsuario, $password){
     $nueva = password_hash($password, PASSWORD_DEFAULT);
     $sentencia = "UPDATE usuarios SET password = ? WHERE id = ?";
-    return isset($GLOBALS['editar']) ? $GLOBALS['editar']->editar($sentencia, [$nueva, $idUsuario]) : editar($sentencia, [$nueva, $idUsuario]);
+    return editar($sentencia, [$nueva, $idUsuario]);
 }
 
 function eliminarUsuario($id){
     $sentencia = "DELETE FROM usuarios WHERE id = ?";
-    return isset($GLOBALS['eliminar']) ? $GLOBALS['eliminar']->eliminar($sentencia, $id) : eliminar($sentencia, $id);
+    return eliminar($sentencia, $id);
 }
 
 function editarUsuario($usuario, $nombre, $telefono, $direccion, $id){
     $sentencia = "UPDATE usuarios SET usuario = ?, nombre = ?, telefono = ?, direccion = ? WHERE id = ?";
     $parametros = [$usuario, $nombre, $telefono, $direccion, $id];
-    return isset($GLOBALS['editar']) ? $GLOBALS['editar']->editar($sentencia, $parametros) : editar($sentencia, $parametros);
+    return editar($sentencia, $parametros);
 }
 
 function obtenerUsuarioPorId($id){
     $sentencia = "SELECT id, usuario, nombre, telefono, direccion FROM usuarios WHERE id = ?";
-    return isset($GLOBALS['select']) ? $GLOBALS['select']->select($sentencia, [$id])[0] : select($sentencia, [$id])[0];
+    return select($sentencia, [$id])[0];
 }
 
 function obtenerUsuarios(){
     $sentencia = "SELECT id, usuario, nombre, telefono, direccion FROM usuarios";
-    $resultado = isset($GLOBALS['select']) ? $GLOBALS['select']->select($sentencia) : select($sentencia);
-    return $resultado ?: [];
+    return select($sentencia);
 }
 
 function registrarUsuario($usuario, $nombre, $telefono, $direccion){
     $password = password_hash(PASSWORD_PREDETERMINADA, PASSWORD_DEFAULT);
     $sentencia = "INSERT INTO usuarios (usuario, nombre, telefono, direccion, password) VALUES (?,?,?,?,?)";
     $parametros = [$usuario, $nombre, $telefono, $direccion, $password];
-    return isset($GLOBALS['insertar']) ? $GLOBALS['insertar']->insertar($sentencia, $parametros) : insertar($sentencia, $parametros);
+    return insertar($sentencia, $parametros);
 }
+
 
 function eliminarCliente($id){
     $sentencia = "DELETE FROM clientes WHERE id = ?";
@@ -99,6 +97,7 @@ function obtenerNumeroClientes(){
     $sentencia = "SELECT IFNULL(COUNT(*),0) AS total FROM clientes";
     return select($sentencia)[0]->total;
 }
+
 
 function obtenerVentasPorUsuario(){
     $sentencia = "SELECT SUM(ventas.total) AS total, usuarios.usuario, COUNT(*) AS numeroVentas 
@@ -425,22 +424,31 @@ function editar($sentencia, $parametros ){
 }
 
 function conectarBaseDatos() {
-    $host = getenv('DB_HOST') ?: 'localhost';
-    $db   = getenv('DB_DATABASE') ?: 'ventas_php';
-    $user = getenv('DB_USERNAME') ?: 'root';
-    $pass = getenv('DB_PASSWORD') ?: '12345';
-    $charset = 'utf8mb4';
+	$host = "mysql";
+	$db   = "ventas_php";
+	$user = "root";
+	$pass = "12345";
+	$charset = 'utf8mb4';
 
-    $options = [
-        \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-        \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
-        \PDO::ATTR_EMULATE_PREPARES   => false,
-    ];
-    $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-    try {
-         $pdo = new \PDO($dsn, $user, $pass, $options);
-         return $pdo;
-    } catch (\PDOException $e) {
-         throw new \PDOException($e->getMessage(), (int)$e->getCode());
-    }
+	$options = [
+	    \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+	    \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
+	    \PDO::ATTR_EMULATE_PREPARES   => false,
+	];
+	$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+	try {
+	     $pdo = new \PDO($dsn, $user, $pass, $options);
+	     return $pdo;
+	} catch (\PDOException $e) {
+	     throw new \PDOException($e->getMessage(), (int)$e->getCode());
+	}
+}
+
+function obtenerVentaPorId($idVenta) {
+    $sentencia = "SELECT ventas.*, usuarios.usuario, IFNULL(clientes.nombre, 'MOSTRADOR') AS cliente
+                  FROM ventas
+                  INNER JOIN usuarios ON usuarios.id = ventas.idUsuario
+                  LEFT JOIN clientes ON clientes.id = ventas.idCliente
+                  WHERE ventas.id = ?";
+    return select($sentencia, [$idVenta])[0];
 }
