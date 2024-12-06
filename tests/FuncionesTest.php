@@ -18,12 +18,12 @@ class FuncionesTest extends TestCase {
         $usuarioMock = (object) [
             'id' => 42,
             'usuario' => 'NuevoUsuario',
-            'password' => password_hash('0612Ferro', PASSWORD_DEFAULT)
+            'password' => password_hash('password123', PASSWORD_DEFAULT)
         ];
         $this->mockSelectFunction([$usuarioMock]);
         
         // Llamar a la función a probar
-        $resultado = iniciarSesion('NuevoUsuario', '0612Ferro');
+        $resultado = iniciarSesion('NuevoUsuario', 'password123');
         
         // Aserciones
         $this->assertNotNull($resultado);
@@ -83,12 +83,12 @@ class FuncionesTest extends TestCase {
         $usuarioMock = (object) [
             'id' => 42,
             'usuario' => 'NuevoUsuario',
-            'password' => password_hash('0612Ferro', PASSWORD_DEFAULT)
+            'password' => password_hash('password123', PASSWORD_DEFAULT)
         ];
         $this->mockSelectFunction([$usuarioMock]);
         
         // Llamar a la función a probar
-        $resultado = iniciarSesion('NuevoUsuario', '0612Ferro');
+        $resultado = iniciarSesion('NuevoUsuario', 'password123');
         
         // Aserciones
         $this->assertNotNull($resultado);
