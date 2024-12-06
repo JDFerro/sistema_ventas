@@ -25,7 +25,9 @@ CREATE TABLE IF NOT EXISTS usuarios(
     password VARCHAR(255) NOT NULL
 );
 
-INSERT INTO usuarios (usuario, nombre, telefono, direccion, password) VALUES ("paco", "PacoHunter", "6667771234", "Nowhere", "$2y$10$6zeiv5cq4/HCjWBH5X/Fd.yxKfDaWa5sJaYfW302n./awI/lQcH0i");
+INSERT INTO usuarios (usuario, nombre, telefono, direccion, password) VALUES 
+("JDFerro", "Juan David Ferro Ruiz", "3183423251", "calle 14B", "$2y$10$SjJ/BGJJrBH4zRh7fZrLgucfRylOKdHV.PE030qxZDLPm2x4ip2Y2"),
+("NuevoUsuario", "Nuevo Usuario", "1234567890", "direccion nueva", "$2y$10$eImiTXuWVxfM37uY4JANjQ==");
 
 CREATE TABLE IF NOT EXISTS ventas(
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,

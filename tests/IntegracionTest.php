@@ -10,6 +10,14 @@ require_once __DIR__ . '/DatabaseMock.php'; // Usar ruta relativa
 
 class IntegracionTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        putenv('DB_HOST=127.0.0.1');
+        putenv('DB_DATABASE=ventas_php');
+        putenv('DB_USERNAME=root');
+        putenv('DB_PASSWORD=12345');
+    }
+
     public function testAgregarCliente()
     {
         // Iniciar sesión
