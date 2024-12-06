@@ -16,7 +16,7 @@ class FuncionesTest extends TestCase {
     public function testIniciarSesion() {
         // Configura el mock de la función select
         $usuarioMock = (object) [
-            'id' => 1,
+            'id' => 42,
             'usuario' => 'NuevoUsuario',
             'password' => password_hash('0612Ferro', PASSWORD_DEFAULT)
         ];
@@ -81,7 +81,7 @@ class FuncionesTest extends TestCase {
     public function testIniciarSesionConCredencialesCorrectas() {
         // Configura el mock de la función select
         $usuarioMock = (object) [
-            'id' => 1,
+            'id' => 42,
             'usuario' => 'NuevoUsuario',
             'password' => password_hash('0612Ferro', PASSWORD_DEFAULT)
         ];
