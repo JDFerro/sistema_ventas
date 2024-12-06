@@ -1,0 +1,1 @@
+{"version":1,"defects":{"FuncionesTest::testIniciarSesion":8,"FuncionesTest::testVerificarPassword":8,"FuncionesTest::testCambiarPassword":8,"FuncionesTest::testRegistrarUsuario":8},"times":{"FuncionesTest::testIniciarSesion":0.024,"FuncionesTest::testVerificarPassword":0.112,"FuncionesTest::testCambiarPassword":0.001,"FuncionesTest::testRegistrarUsuario":0.001}}

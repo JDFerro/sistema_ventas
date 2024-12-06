@@ -2,8 +2,10 @@
     ob_start();
     include_once "funciones.php";
     session_start();
+    if (!isset($_SESSION['lista'])) {
+        $_SESSION['lista'] = [];
+    }
     if(isset($_POST['agregar'])){
-    
         if(isset($_POST['codigo'])) {
             $codigo = $_POST['codigo'];
             $producto = obtenerProductoPorCodigo($codigo);
@@ -16,7 +18,6 @@
                 return;
             }
             
-            print_r($producto);
             $_SESSION['lista'] = agregarProductoALista($producto,  $_SESSION['lista']);
             unset($_POST['codigo']);
             header("location: vender.php");

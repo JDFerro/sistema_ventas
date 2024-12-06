@@ -63,6 +63,5 @@ if(isset($_POST['registrar'])){
             Usuario registrado con éxito.
         </div>';
     }
-    
 }
 ?>

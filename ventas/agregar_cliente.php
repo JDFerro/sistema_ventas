@@ -56,7 +56,14 @@ if(isset($_POST['registrar'])){
         <div class="alert alert-success mt-3" role="alert">
             Cliente registrado con éxito.
         </div>';
+        limpiarDatosSesion();
     }
-    
 }
+
+function limpiarDatosSesion() {
+    unset($_POST['nombre']);
+    unset($_POST['telefono']);
+    unset($_POST['direccion']);
+}
+
 ?>

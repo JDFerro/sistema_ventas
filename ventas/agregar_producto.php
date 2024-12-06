@@ -71,6 +71,5 @@ if(isset($_POST['registrar'])){
             Producto registrado con éxito.
         </div>';
     }
-    
 }
 ?>
