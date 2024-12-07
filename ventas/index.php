@@ -6,10 +6,10 @@ include_once "navbar.php";
 include_once "funciones.php";
 
 $cartas = [
-    ["titulo" => "Total ventas", "icono" => "fa fa-money-bill", "total" => "$".obtenerTotalVentas(), "color" => "#A71D45"],
-    ["titulo" => "Ventas hoy", "icono" => "fa fa-calendar-day", "total" => "$".obtenerTotalVentasHoy(), "color" => "#2A8D22"],
-    ["titulo" => "Ventas semana", "icono" => "fa fa-calendar-week", "total" => "$".obtenerTotalVentasSemana(), "color" => "#223D8D"],
-    ["titulo" => "Ventas mes", "icono" => "fa fa-calendar-alt", "total" => "$".obtenerTotalVentasMes(), "color" => "#D55929"],
+    ["titulo" => "Total ventas", "icono" => "fa fa-money-bill", "total" => "$".number_format(obtenerTotalVentas(), 2), "color" => "#A71D45"],
+    ["titulo" => "Ventas hoy", "icono" => "fa fa-calendar-day", "total" => "$".number_format(obtenerTotalVentasHoy(), 2), "color" => "#2A8D22"],
+    ["titulo" => "Ventas semana", "icono" => "fa fa-calendar-week", "total" => "$".number_format(obtenerTotalVentasSemana(), 2), "color" => "#223D8D"],
+    ["titulo" => "Ventas mes", "icono" => "fa fa-calendar-alt", "total" => "$".number_format(obtenerTotalVentasMes(), 2), "color" => "#D55929"],
 ];
 
 $totales = [
@@ -68,7 +68,7 @@ $productosMasVendidos = obtenerProductosMasVendidos();
 								<tr>
 									<td><?= $usuario->usuario?></td>
 									<td><?= $usuario->numeroVentas?></td>
-									<td>$<?= $usuario->total?></td>
+									<td>$<?= number_format($usuario->total, 2)?></td>
 								</tr>
 							<?php }?>
 						</tbody>
@@ -93,7 +93,7 @@ $productosMasVendidos = obtenerProductosMasVendidos();
 								<tr>
 									<td><?= $cliente->cliente?></td>
 									<td><?= $cliente->numeroCompras?></td>
-									<td>$<?= $cliente->total?></td>
+									<td>$<?= number_format($cliente->total, 2)?></td>
 								</tr>
 							<?php }?>
 						</tbody>
@@ -117,9 +117,9 @@ $productosMasVendidos = obtenerProductosMasVendidos();
 	 		<tr>
 	 			<td><?= $producto->nombre?></td>
 	 			<td><?= $producto->unidades?></td>
-	 			<td>$<?= $producto->total?></td>
+	 			<td>$<?= number_format($producto->total, 2)?></td>
 	 		</tr>
 	 		<?php }?>
 	 	</tbody>
 	 </table>
-</div>	
+</div>

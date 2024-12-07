@@ -16,10 +16,10 @@ if ($_SESSION['usuario'] === "NuevoUsuario" && $_SESSION['idUsuario'] === 42) {
 }
 
 $cartas = [
-    ["titulo" => "Total ventas", "icono" => "fa fa-money-bill", "total" => "$".obtenerTotalVentas($idUsuario), "color" => "#F11337"],
-    ["titulo" => "Ventas hoy", "icono" => "fa fa-calendar-day", "total" => "$".obtenerTotalVentasHoy($idUsuario), "color" => "#133CF1"],
-    ["titulo" => "Ventas semana", "icono" => "fa fa-calendar-week", "total" => "$".obtenerTotalVentasSemana($idUsuario), "color" => "#4A64D5"],
-    ["titulo" => "Ventas mes", "icono" => "fa fa-calendar-alt", "total" => "$".obtenerTotalVentasMes($idUsuario), "color" => "#6985FF"],
+    ["titulo" => "Total ventas", "icono" => "fa fa-money-bill", "total" => "$".number_format(obtenerTotalVentas($idUsuario), 2), "color" => "#F11337"],
+    ["titulo" => "Ventas hoy", "icono" => "fa fa-calendar-day", "total" => "$".number_format(obtenerTotalVentasHoy($idUsuario), 2), "color" => "#133CF1"],
+    ["titulo" => "Ventas semana", "icono" => "fa fa-calendar-week", "total" => "$".number_format(obtenerTotalVentasSemana($idUsuario), 2), "color" => "#4A64D5"],
+    ["titulo" => "Ventas mes", "icono" => "fa fa-calendar-alt", "total" => "$".number_format(obtenerTotalVentasMes($idUsuario), 2), "color" => "#6985FF"],
 ];
 ?>
 

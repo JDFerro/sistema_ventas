@@ -27,10 +27,10 @@ $cliente = (isset($_POST['idCliente'])) ? $_POST['idCliente'] : null;
 $ventas = obtenerVentas($fechaInicio, $fechaFin, $cliente, $usuario);
 
 $cartas = [
-    ["titulo" => "No. ventas", "icono" => "fa fa-shopping-cart", "total" => count($ventas), "color" => "#A71D45"],
-    ["titulo" => "Total ventas", "icono" => "fa fa-money-bill", "total" => "$".calcularTotalVentas($ventas), "color" => "#2A8D22"],
-    ["titulo" => "Productos vendidos", "icono" => "fa fa-box", "total" =>calcularProductosVendidos($ventas), "color" => "#223D8D"],
-    ["titulo" => "Ganancia", "icono" => "fa fa-wallet", "total" => "$". obtenerGananciaVentas($ventas), "color" => "#D55929"],
+    ["titulo" => "No. ventas", "icono" => "fa fa-shopping-cart", "total" => number_format(count($ventas)), "color" => "#A71D45"],
+    ["titulo" => "Total ventas", "icono" => "fa fa-money-bill", "total" => "$".number_format(calcularTotalVentas($ventas), 2), "color" => "#2A8D22"],
+    ["titulo" => "Productos vendidos", "icono" => "fa fa-box", "total" => number_format(calcularProductosVendidos($ventas)), "color" => "#223D8D"],
+    ["titulo" => "Ganancia", "icono" => "fa fa-wallet", "total" => "$".number_format(obtenerGananciaVentas($ventas), 2), "color" => "#D55929"],
 ];
 
 $clientes = obtenerClientes();
@@ -110,7 +110,7 @@ ob_end_flush();
                     <td><?= $venta->id;?></td>
                     <td><?= $venta->fecha;?></td>
                     <td><?= $venta->cliente;?></td>
-                    <td>$<?= $venta->total;?></td>
+                    <td>$<?= number_format($venta->total, 2); ?></td>
                     <td><?= $venta->usuario;?></td>
                     <td>
                         <table class="table">
@@ -119,13 +119,13 @@ ob_end_flush();
                                     <td><?= $producto->nombre;?></td>
                                     <td><?= $producto->cantidad;?></td>
                                     <td> X </td>
-                                    <td>$<?=  $producto->precio ;?></td>
-                                    <th>$<?= $producto->cantidad * $producto->precio ;?></th>
+                                    <td>$<?= number_format($producto->precio, 2); ?></td>
+                                    <th>$<?= number_format($producto->cantidad * $producto->precio, 2); ?></th>
                                 </tr>
                             <?php }?>
                             <tr>
                                 <td colspan="4" class="text-end"><strong>Total:</strong></td>
-                                <td><strong>$<?= $venta->total;?></strong></td>
+                                <td><strong>$<?= number_format($venta->total, 2); ?></strong></td>
                                 <td><a href="factura.php?id=<?= $venta->id;?>" class="btn btn-info">Generar Factura</a></td>
                             </tr>
                         </table>
