@@ -462,12 +462,11 @@ function editar($sentencia, $parametros ){
 }
 
 function conectarBaseDatos() {
-    $host = getenv('DB_HOST') ?: 'mysql';
-    $db   = getenv('DB_DATABASE') ?: 'ventas_php';
+    $host = getenv('DB_HOST') ?: 'junction.proxy.rlwy.net';
+    $db   = getenv('DB_DATABASE') ?: 'railway';
     $user = getenv('DB_USERNAME') ?: 'root';
-    $pass = getenv('DB_PASSWORD') ?: '12345';
+    $pass = getenv('DB_PASSWORD') ?: 'hMStbjONylIppWNHNcJnalMpyiHsBaho';
     $charset = 'utf8mb4';
-
     $options = [
         \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
         \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
