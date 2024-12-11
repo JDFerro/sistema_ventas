@@ -482,6 +482,7 @@ function conectarBaseDatos() {
     }
 }
 
+
 function obtenerVentaPorId($idVenta) {
     $sentencia = "SELECT ventas.*, usuarios.usuario, IFNULL(clientes.nombre, 'MOSTRADOR') AS cliente
                   FROM ventas
