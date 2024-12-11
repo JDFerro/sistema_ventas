@@ -466,19 +466,25 @@ function conectarBaseDatos() {
     $db   = getenv('DB_DATABASE') ?: 'ventas_php';
     $user = getenv('DB_USERNAME') ?: 'root';
     $pass = getenv('DB_PASSWORD') ?: '12345';
+    $conect = getenv('DB_PORT') ?: '22401';
     $charset = 'utf8mb4';
 
     $options = [
         \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
         \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
         \PDO::ATTR_EMULATE_PREPARES   => false,
+        \PDO::ATTR_TIMEOUT            => 30
     ];
-    $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+    $dsn = "mysql:host=$host;dbname=$db;charset=$charset; port=$conect";
     try {
          $pdo = new \PDO($dsn, $user, $pass, $options);
          return $pdo;
     } catch (\PDOException $e) {
-         throw new \PDOException($e->getMessage(), (int)$e->getCode());
+        // Si la conexión se pierde, intentamos reconectar
+        if ($e->getCode() == 2006) {
+            return conectarBaseDatos();  // Reintenta la conexión
+        }
+        throw new \PDOException($e->getMessage(), (int)$e->getCode());
     }
 }
 

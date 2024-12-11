@@ -4,7 +4,7 @@ services:
   # Servicio MySQL
   mysql:
     image: mysql:latest
-    container_name: mysql-containers
+    container_name: mysql-contenedor
     environment:
       MYSQL_ROOT_PASSWORD: 12345
       MYSQL_DATABASE: ventas_php # Cambiar a tu base de datos
@@ -15,11 +15,10 @@ services:
 
   # Servicio PHP para tu aplicación
   php:
-    
     image: sistemas-ventas:latest
     container_name: php-container
     ports:
-      - "80:80" # Cambia si necesitas otro puerto para PHP
+      - "8080:8080" # Cambia si necesitas otro puerto para PHP
     volumes:
       - .:/var/www/html # Esto monta el directorio actual en el contenedor
     depends_on:

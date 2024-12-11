@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   run-tests:
@@ -33,7 +30,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: "8.2"
 
       - name: Install dependencies
         run: composer install
@@ -59,3 +56,10 @@ jobs:
           DB_PASSWORD: 12345
         run: ./vendor/bin/phpunit --configuration phpunit.xml
 
+      - name: Install RailwayCLI
+        run: curl -fsSL https://railway.app/install.sh | sh
+
+      - name: Deploy to Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up --service sistema_ventas
