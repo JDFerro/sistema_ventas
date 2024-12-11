@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-ini_set('memory_limit', '256M'); // O cualquier valor superior que necesites
+ini_set('memory_limit', '512M'); // O cualquier valor superior que necesites
 if(empty($_SESSION['usuario'])) header("location: login.php");
 include_once "encabezado.php";
 include_once "navbar.php";
